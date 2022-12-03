@@ -17,13 +17,18 @@ header = {
     "Authorization": f"Bearer {md.TwitchClientSecret}"
 }
 
+global msg
 global errorMsg
+global successMsg
 global errorBoolean
 global sts_code
 
-errorBoolean = False
+msg = ""
 errorMsg = None
+successMsg = ""
+errorBoolean = False
 sts_code = None
+
 
 def getUserID(username: str):
     url = "{}users?login={}".format(url_base, username)
@@ -43,8 +48,7 @@ user_id = getUserID(f"{md.TwitchUsername}")
 
 # Necessita ser corrigido!
 def modifyChannel(game_id, live_title, broadcaster_language):
-    global errorBoolean
-    global errorMsg
+    global msg
 
     url = "{}channels?broadcaster_id={}".format(url_base, user_id)
 
@@ -52,18 +56,23 @@ def modifyChannel(game_id, live_title, broadcaster_language):
         "game_id": f"{game_id}", "title": f"{live_title}", 
         "broadcaster_language": f"{broadcaster_language}"
     }
+    r = requests.patch(url, headers={
+        "client-id": f"{md.TwitchClientID}",
+        "Authorization": f"Bearer {md.TwitchClientSecret}",
+        'Content-Type': 'application/json'
+    }, json=payload)
 
-    try:
-        errorBoolean = False
-        r = requests.patch(url, headers={
-            "client-id": f"{md.TwitchClientID}",
-            "Authorization": f"Bearer {md.TwitchClientSecret}",
-            'Content-Type': 'application/json'
-            }, json=payload)
 
-    except IndexError as e:
-        errorBoolean = True
-        errorMsg = f"Ocorreu um erro. O erro é desconhecido."
+    sts_code = r.status_code
+
+    # print("Código de resposta:", sts_code)
+
+    if sts_code >= 199 and sts_code <= 299:
+        msg = "Stream Info updated successfully."
+    else:
+        msg = f"Error to update Stream Info."
+
+    return msg
 
 # Working!
 def getSpecsCount(username: str):
