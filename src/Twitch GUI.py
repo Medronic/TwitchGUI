@@ -36,11 +36,11 @@ ManageStreamTab = [
 
     [sg.Button(f"{md.mgtStream_btnChangeStgs}", key="change_stream_data", font='15px')],
 
-    [sg.Text("============================ AD (Anúncio) ============================")],
+    [sg.Text("============================== AD ==============================")],
     [sg.Drop(values=("30", "60", "90", "120", "150", "180"), default_value="30", key="ad_time", font=(30), readonly=True), sg.Button('Passar AD', key='start_comercial', size=(12), font='15px')],
 
-    [sg.Text("============================ Espectadores ============================")],
-    [sg.Text("Espectadores:"), sg.Text("0", key="total_viewers", font='15px'), sg.Button(f"{md.mgtStream_btnViewersRefresh}", key="update_viewers", font='15px')],
+    [sg.Text(f"============================ {md.mgtStream_lblViewers} ============================")],
+    [sg.Text(f"{md.mgtStream_lblViewers}"), sg.Text("0", key="total_viewers", font='15px'), sg.Button(f"{md.mgtStream_btnViewersRefresh}", key="update_viewers", font='15px')],
 
     # [sg.Button("Banimentos", key="bans")]
 ]
@@ -114,8 +114,11 @@ while True:
         Title = values["stream_title"]
         Lng = values["stream_language"]
 
-        ttv.modifyChannel(game_id=GameID, live_title=Title, broadcaster_language=Lng)
-        sg.popup(f"{ttv.msg}", title="Response Code")
+        if not GameID and Title:
+             sg.popup(f"Fill the fields {md.mgtStream_lblGame} and {md.mgtStream_lblTitle}!", title="Fields in Blank")
+        else:
+            ttv.modifyChannel(game_id=GameID, live_title=Title, broadcaster_language=Lng)
+            sg.popup(f"{ttv.msg}", title="Response Code")
 
     if event == "start_comercial":
         ad_time = values["ad_time"]
@@ -155,7 +158,7 @@ while True:
 
         if not title and cost:
              sg.popup("Fill the fields Title and Cost!", title="Fields in Blank")
-        else: 
+        else:
             ttv.createRewards(title=title, cost=cost, prompt=msg, is_enabled=status, is_user_input_required=CommentBoolean, is_max_per_stream_enabled=MaxPerStreamBoolean, max_per_stream=MaxPerStreamNumber, is_max_per_user_per_stream_enabled=MaxPerUserBoolean, max_per_user_per_stream=MaxPerUserNumber, is_global_cooldown_enabled=CooldownBoolean, global_cooldown_seconds=CooldownNumber)
             sg.popup(f"{ttv.sts_code}", title="Response Code")
 

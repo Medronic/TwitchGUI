@@ -122,6 +122,7 @@ def LoadSettings():
         lngSettingsTab = data[f'{AppLanguage}'][0]['TabGroup']['Settings']
         lngAboutTab = data[f'{AppLanguage}'][0]['TabGroup']['About']
 
+        global mgtStream_lblGame
         global mgtStream_lblTitle
         global mgtStream_lblGoLiveNotification
         global mgtStream_lblCategory
@@ -130,8 +131,11 @@ def LoadSettings():
         global mgtStream_lblStreamLng
         global mgtStream_lblRerun
         global mgtStream_btnChangeStgs
+
+        global mgtStream_lblViewers
         global mgtStream_btnViewersRefresh
 
+        mgtStream_lblGame = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['Game']
         mgtStream_lblTitle = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['Title']
         mgtStream_lblGoLiveNotification = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['GoLiveNotification']
         mgtStream_lblCategory = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['Category']
@@ -140,6 +144,8 @@ def LoadSettings():
         mgtStream_lblStreamLng = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['StreamLanguage']
         mgtStream_lblRerun = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['Rerun']
         mgtStream_btnChangeStgs = data[f'{AppLanguage}'][0]['StreamManager']['Buttons']['ChangeSettings']
+
+        mgtStream_lblViewers = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['Viewers']
         mgtStream_btnViewersRefresh = data[f'{AppLanguage}'][0]['StreamManager']['Buttons']['ViewersRefresh']
         
         global reward_lblName

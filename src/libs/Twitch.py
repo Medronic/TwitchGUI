@@ -46,7 +46,7 @@ def getUserID(username: str):
 
 user_id = getUserID(f"{md.TwitchUsername}")
 
-# Necessita ser corrigido!
+# Aparentemente funcional
 def modifyChannel(game_id, live_title, broadcaster_language):
     global msg
 
@@ -62,7 +62,6 @@ def modifyChannel(game_id, live_title, broadcaster_language):
         'Content-Type': 'application/json'
     }, json=payload)
 
-
     sts_code = r.status_code
 
     # print("Código de resposta:", sts_code)
@@ -74,7 +73,7 @@ def modifyChannel(game_id, live_title, broadcaster_language):
 
     return msg
 
-# Working!
+# Funcionando com Try
 def getSpecsCount(username: str):
     global count
     global errorBoolean
