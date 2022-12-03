@@ -1,0 +1,175 @@
+{
+    "portuguese": [
+        {
+            "TabGroup": {
+                "StreamManager": "Gerenciador de Stream",
+                "Rewards": "Recompensas",
+                "Functions": "Funções",
+                "Settings": "Configurações",
+                "About": "Sobre"
+            },
+            "StreamManager": {
+                "Popup": {
+                    "DescriptionOfCategory": "Gerencie suas streams aqui"
+                },
+                "Texts": {
+                    "Title": "Título",
+                    "GoLiveNotification": "Notificação de Live",
+                    "Category": "Categoria",
+                    "Audience": "Visibilidade",
+                    "Tags": "Tags",
+                    "StreamLanguage": "Idioma da Live",
+                    "Rerun": "Rerun"
+                },
+                "Buttons": {
+                    "ChangeSettings": "Alterar Configurações",
+                    "ViewersRefresh": "Atualizar Espectadores"
+                }
+            },
+            "Rewards": {
+                "Texts": {
+                    "Name": "Nome",
+                    "Price": "Preço",
+                    "Message": "Mensagem",
+                    "Enabled": "Habilitado",
+                    "NeedComment": "Requer Comentário ?",
+                    "MaxPerStream": "Máximo por Live ?",
+                    "MaxPerStreamNumber": "Máximo por Live",
+                    "MaxPerUser": "Máximo do Usuário por Live ?",
+                    "MaxPerUserNumber": "Máximo do Usuário por Live",
+                    "Cooldown": "Cooldown Habilitado ?",
+                    "CooldownNumber": "Tempo de Espera"
+                },
+                "Buttons": {
+                    "CreateReward": "Criar Recompensa"
+                }
+            },
+            "Settings":{
+                "Popup":{
+                    "DescriptionOfCategory": "Sobre as Configurações"
+                },
+                "Texts":{
+                    "Username": "Nome de Usuário (Twitch)",
+                    "ClientID": "Client ID",
+                    "ClientSecret": "Client Secret",
+                    "Language": "Idioma"
+                },
+                "Buttons":{
+                    "Save": "Salvar Configurações"
+                }
+            },
+            "About": {
+                "Popup": {
+                    "DescriptionOfCategory": "Sobre o Twitch GUI"
+                },
+                "Texts": {
+                    "Description": "Twitch GUI permite com que você gerencie suas lives de maneira mais fácil e rápida.",
+                    "Version": {
+                        "Number": "Versão",
+                        "UpdateMsgs": {
+                            "Checking": "Verificando...",
+                            "NoUpdates": "Não há atualizações disponíveis",
+                            "UpdateAvailable": "Atualização disponível",
+                            "ErrorToCheck": "Erro ao verificar atualizações",
+                            "ErrorToDownload": "Erro ao baixar atualização",
+                            "Downloaded": "Atualização baixada",
+                            "FileUnziped": "Extraimos a atualização para pasta ",
+                            "ErrorToUnzip": "Não foi possível extrair o arquivo."
+                        }
+                    },
+                    "UpdateStatus": "Status da Atualização",
+                    "Author": "Desenvolvido por Medronic"
+                },
+                "Buttons": {
+                    "CheckUpdates": "Verificar Atualizações"
+                }
+            }
+        }
+    ],
+    "english": [
+        {
+            "TabGroup": {
+                "StreamManager": "Stream Manager",
+                "Rewards": "Rewards",
+                "Functions": "Functions",
+                "Settings": "Settings",
+                "About": "About"
+            },"StreamManager": {
+                "Popup": {
+                    "DescriptionOfCategory": "Manage your stream here"
+                },
+                "Texts": {
+                    "Title": "Title",
+                    "GoLiveNotification": "Live Notification",
+                    "Category": "Category",
+                    "Audience": "Audience",
+                    "Tags": "Tags",
+                    "StreamLanguage": "Live Language",
+                    "Rerun": "Rerun"
+                },
+                "Buttons": {
+                    "ChangeSettings": "Change Settings",
+                    "ViewersRefresh": "Update Viewers list"
+                }
+            },
+            "Rewards": {
+                "Texts": {
+                    "Name": "Name",
+                    "Price": "Price",
+                    "Message": "Message",
+                    "Enabled": "Enabled",
+                    "NeedComment": "Need Comment ?",
+                    "MaxPerStream": "Maximum per Live ?",
+                    "MaxPerStreamNumber": "Maximum per Live",
+                    "MaxPerUser": "Maximum of User per Live ?",
+                    "MaxPerUserNumber": "Maximum of User per Live",
+                    "Cooldown": "Cooldown Enabled ?",
+                    "CooldownNumber": "Cooldown"
+                },
+                "Buttons": {
+                    "CreateReward": "Create Reward"
+                }
+            },
+            "Settings":{
+                "Popup":{
+                    "DescriptionOfCategory": "About Settings"
+                },
+                "Texts":{
+                    "Username": "Name of User (Twitch)",
+                    "ClientID": "Client ID",
+                    "ClientSecret": "Client Secret",
+                    "Language": "Language"
+                },
+                "Buttons":{
+                    "Save": "Save Settings"
+                }
+            },
+            "About": {
+                "Popup": {
+                    "DescriptionOfCategory": "About Twitch GUI"
+                },
+                "Texts": {
+                    "Description": "Twitch GUI allows you to manage your lives in an easier and faster way.",
+                    "Version": {
+                        "Number": "Version",
+                        "UpdateMsgs": {
+                            "Checking": "Searching...",
+                            "NoUpdates": "There are no updates available",
+                            "UpdateAvailable": "Update available",
+                            "ErrorToCheck": "Error checking for updates",
+                            "ErrorToDownload": "Error downloading update",
+                            "Downloaded": "Update downloaded",
+                            "FileUnziped": "We extracted the update ",
+                            "ErrorToUnzip": "Unable to extract the file."
+                        }
+                    },
+                    "UpdateStatus": "Update Status",
+                    "Author": "Created by Medronic"
+                },
+                "Buttons": {
+                    "CheckUpdates": "Check updates"
+                }
+            }
+        }
+    ]
+}
