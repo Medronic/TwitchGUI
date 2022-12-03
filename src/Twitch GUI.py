@@ -101,7 +101,7 @@ layout = [
         f"{md.lngSettingsTab}", SettingsTab), sg.Tab(f"{md.lngAboutTab}", AboutTab)]])],
 ]
 
-window = sg.Window(f"Twitch GUI", layout, size=(1280, 728), icon="./static/img/icons/favicon.ico", resizable=False)
+window = sg.Window(f"Twitch GUI", layout, size=(650, 500), icon="./static/img/icons/favicon.ico", resizable=False)
 
 while True:
     event, values = window.read()
