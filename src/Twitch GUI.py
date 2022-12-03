@@ -8,8 +8,8 @@ md.LoadSettings()
 
 sg.theme("DarkPurple4")
 
-TTVclient = os.environ.get("TwitchClient")
-TTVsecret = os.environ.get("TwitchSecret")
+# TTVclient = os.environ.get("TwitchClient")
+# TTVsecret = os.environ.get("TwitchSecret")
 
 ManageStreamTab = [
     [sg.Text("Game:"), sg.Drop(values=("491487", "491487 - Dead by Daylight",
