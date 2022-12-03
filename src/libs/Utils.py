@@ -218,7 +218,7 @@ def LoadSettings():
 def checkUpdate():
     global serverVersion
     global needUpdate
-    url = 'https://pastebin.com/raw/sstKjksV'
+    url = 'https://pastebin.com/raw/CXBiknQT'
     r = requests.get(url)
     serverVersion = float(r.text)
 
@@ -244,10 +244,10 @@ def update():
     global updateMsg
 
     updateMsg = ''
-    folder = f'GC_GUIv{serverVersion}'
-    file_name = f'GC_GUIv{serverVersion}.zip'
+    folder = f'Twitch_GUIv{serverVersion}'
+    file_name = f'Twitch_GUIv{serverVersion}.zip'
 
-    url = f'https://leavepriv8.com/Softwares/GC_GUI/{file_name}'
+    url = f'https://leavepriv8.com/Softwares/Twitch_GUI/{file_name}'
     r = requests.get(url, allow_redirects=True)
     
     open(f'{file_name}', 'wb').write(r.content)
