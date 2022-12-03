@@ -12,7 +12,8 @@ TTVclient = os.environ.get("TwitchClient")
 TTVsecret = os.environ.get("TwitchSecret")
 
 ManageStreamTab = [
-    [sg.Text("Game:"), sg.Drop(values=("491487","21779 - League of Legends",
+    [sg.Text("Game:"), sg.Drop(values=("491487", "491487 - Dead by Daylight",
+    "21779 - League of Legends",
     "32982 - Grand Theft Auto V",
     "512953 - Elden Ring",
     "516575 - VALORANT",
@@ -23,9 +24,8 @@ ManageStreamTab = [
     "490100 - Lost Ark",
     "29595 - Dota 2",
     "490130 - Minecraft",
-    "491487 - Dead by Daylight",
     "138585 - Hearthstone",
-    "263490 - Rust"), default_value="491487 - Dead by Daylight", key="stream_game", readonly=True)],
+    "263490 - Rust"), default_value="491487", key="stream_game", readonly=True)],
     
     [sg.Text(f"{md.mgtStream_lblTitle}"), sg.Input(key="stream_title", size=(40, 1))],
     [sg.Text(f"{md.mgtStream_lblGoLiveNotification}"), sg.Input(key="stream_goLiveNotification", size=(15, 1))],
@@ -115,8 +115,7 @@ while True:
         Lng = values["stream_language"]
 
         ttv.modifyChannel(game_id=GameID, live_title=Title, broadcaster_language=Lng)
-        if ttv.errorBoolean == True:
-                sg.popup(f"{ttv.errorMsg}", title="Response Code")
+        sg.popup(f"{ttv.msg}", title="Response Code")
 
     if event == "start_comercial":
         ad_time = values["ad_time"]
