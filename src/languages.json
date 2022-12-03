@@ -13,13 +13,15 @@
                     "DescriptionOfCategory": "Gerencie suas streams aqui"
                 },
                 "Texts": {
+                    "Game": "Jogo",
                     "Title": "Título",
                     "GoLiveNotification": "Notificação de Live",
                     "Category": "Categoria",
                     "Audience": "Visibilidade",
                     "Tags": "Tags",
                     "StreamLanguage": "Idioma da Live",
-                    "Rerun": "Rerun"
+                    "Rerun": "Rerun",
+                    "Viewers": "Espectadores:"
                 },
                 "Buttons": {
                     "ChangeSettings": "Alterar Configurações",
@@ -99,13 +101,15 @@
                     "DescriptionOfCategory": "Manage your stream here"
                 },
                 "Texts": {
+                    "Game": "Game",
                     "Title": "Title",
                     "GoLiveNotification": "Live Notification",
                     "Category": "Category",
                     "Audience": "Audience",
                     "Tags": "Tags",
                     "StreamLanguage": "Live Language",
-                    "Rerun": "Rerun"
+                    "Rerun": "Rerun",
+                    "Viewers": "Viewers:"
                 },
                 "Buttons": {
                     "ChangeSettings": "Change Settings",
