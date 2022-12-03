@@ -1,5 +1,5 @@
 # Twitch GUI
-Gerencie suas lives streams através do Twitch GUI!
+Manage your live streams with Twitch GUI!
 
 ## Features
 Twitch 
