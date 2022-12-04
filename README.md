@@ -8,6 +8,7 @@ Twitch
 - Edit Stream Info
 - Run AD
 - Number of Viewers (In Live)
+- Create Clips [Soon implement with Async]
 - Create Rewards
 
 Application
