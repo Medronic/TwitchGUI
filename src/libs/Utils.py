@@ -7,7 +7,6 @@ from time import sleep
 import requests
 
 # DEFINES
-
 LOAD_SETTINGS = "Carregando configurações..."
 LOAD_SETTINGS_SUCCESS = "Configurações carregadas com sucesso!"
 LOAD_SETTINGS_ERROR = "Erro ao carregar configurações!"
@@ -18,10 +17,8 @@ SAVE_SETTINGS_ERROR = "Erro ao salvar configurações!"
 
 data = dt.datetime.now()
 
-# Função para Salvar arquivos de Log
-
+# Função Salvar arquivos de Log
 def SaveLogs(p1):
-    
     with open('logs.txt', 'a', encoding='utf-8') as outfile:
         outfile.write(f"{data} {p1}")
 
@@ -31,7 +28,6 @@ def SaveClips(ClipURL):
         outfile.write(f"{ClipURL}")
 
 # Função para formatar o List Box removendo espaços e caracteres, apenas deixando números
-
 def format_string(d1):
     # chars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z", " "]
     global result_final
@@ -61,10 +57,7 @@ def format_string(d1):
 #         else:
 #             print("Erro ao carregar Lista de Jogos!")
 
-# Função para Ler as Configurações de Linguagem
-
-# Função para Ler as Configurações do Arquivo JSON
-
+# Função Ler as Configurações e Linguagens
 def LoadSettings():
     print("Carregando configurações...")
     SaveLogs(f"Loading settings...\n")
@@ -72,31 +65,18 @@ def LoadSettings():
     if os.path.isfile('settings.json'):
         arquivo_json = open('settings.json', 'r', encoding='utf-8')
         data = json.loads(arquivo_json.read())
-
-        # Declarar as variáveis globais
         
         global AppLanguage
         global AppVersion
         global AppTheme
-        # global AppName
-        # global AppVersion
-        # global AppAuthor
-        # global AppDescription
 
         global TwitchUsername
         global TwitchClientID
         global TwitchClientSecret
 
-        # Configurações da Aplicação
-
         AppLanguage = data["Settings"]['Application']['Language']
         AppVersion = data["Settings"]['Application']['Version']
         AppTheme = data["Settings"]['Application']['Theme']
-        # AppName = data['Settings']['Application']['Name']
-        # AppVersion = data['Settings']['Application']['Version']
-        # AppAuthor = data['Settings']['Application']['Author']
-        # AppDescription = data['Settings']['Application']['Description']
-        # AppVersion = data['Settings']['Application']['Version']
 
         TwitchUsername = data['Settings']['Twitch']['Username']
         TwitchClientID = data['Settings']['Twitch']['ClientID']
@@ -235,8 +215,7 @@ def LoadSettings():
     else:
         SaveLogs(f"Language file settings not found! Creating default language file...\n")
 
-# Função para verificar por atualizações
-
+# Função verificar por atualizações
 def checkUpdate():
     global serverVersion
     global needUpdate
@@ -258,7 +237,7 @@ def checkUpdate():
         SaveLogs('No new version found!\n')
         needUpdate = False
 
-# Função de baixar a atualização
+# Função atualizar
 
 def update():
     global folder
@@ -277,15 +256,20 @@ def update():
     updateMsg = f'{About_lblDownloaded}'
     SaveLogs(f'{updateMsg}\n')
 
-    with zipfile.ZipFile(f'{file_name}','r') as zip_ref:
-        zip_ref.extractall(f'{folder}')
-        
-        sleep(2)
-        updateMsg = f'{About_lblFileUnziped}' + folder
-        SaveLogs(f'{updateMsg}\n')
+    try:
+        with zipfile.ZipFile(f'{file_name}','r') as zip_ref:
+            zip_ref.extractall(f'{folder}')
+            
+            sleep(2)
+            updateMsg = f'{About_lblFileUnziped}' + folder
+            SaveLogs(f'{updateMsg}\n')
+    except zipfile.BadZipfile as e:
+        print("Bad File")
+        updateMsg = "Error (Bad File). Maybe Update URL is invalid!"
+        os.remove(f"{file_name}")
 
-# Função para salvar as configurações
 
+# Função Salvar as Configurações
 def SaveSettings(lang, theme, TwUsername, TwClient, TwSecret):
     data = {}
     data['Settings'] = {'Application': {'Language': lang, 'Version': AppVersion, 'Theme': theme}, 'Twitch': {'Username': TwUsername, 'ClientID': TwClient, 'ClientSecret': TwSecret}}
