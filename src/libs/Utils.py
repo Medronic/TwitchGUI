@@ -16,14 +16,19 @@ SAVE_SETTINGS = "Salvando configurações..."
 SAVE_SETTINGS_SUCCESS = "Configurações salvas com sucesso!"
 SAVE_SETTINGS_ERROR = "Erro ao salvar configurações!"
 
-updateMsg = ''
+data = dt.datetime.now()
 
 # Função para Salvar arquivos de Log
 
 def SaveLogs(p1):
-    data = dt.datetime.now()
+    
     with open('logs.txt', 'a', encoding='utf-8') as outfile:
         outfile.write(f"{data} {p1}")
+
+def SaveClips(ClipURL):
+    data = dt.datetime.now()
+    with open('clips.txt', 'a', encoding='utf-8') as outfile:
+        outfile.write(f"{ClipURL}")
 
 # Função para formatar o List Box removendo espaços e caracteres, apenas deixando números
 
@@ -135,6 +140,11 @@ def LoadSettings():
         global mgtStream_lblViewers
         global mgtStream_btnViewersRefresh
 
+        global mgtStream_lblHasDelay
+        global mgtStream_lblClipStatus
+        global mgtStream_btnCreateClip
+        global mgtStream_btnGetClipStatus
+
         mgtStream_lblGame = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['Game']
         mgtStream_lblTitle = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['Title']
         mgtStream_lblGoLiveNotification = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['GoLiveNotification']
@@ -147,6 +157,12 @@ def LoadSettings():
 
         mgtStream_lblViewers = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['Viewers']
         mgtStream_btnViewersRefresh = data[f'{AppLanguage}'][0]['StreamManager']['Buttons']['ViewersRefresh']
+
+        mgtStream_lblHasDelay = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['HasDelay']
+        mgtStream_lblClipStatus = data[f'{AppLanguage}'][0]['StreamManager']['Texts']['ClipStatus']
+
+        mgtStream_btnCreateClip = data[f'{AppLanguage}'][0]['StreamManager']['Buttons']['CreateClip']
+        mgtStream_btnGetClipStatus = data[f'{AppLanguage}'][0]['StreamManager']['Buttons']['GetClipStatus']
         
         global reward_lblName
         global reward_lblPrice

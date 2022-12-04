@@ -4,6 +4,7 @@
 # import datetime
 
 import json
+import asyncio
 
 import libs.Utils as md
 import requests
@@ -11,6 +12,7 @@ import requests
 md.LoadSettings()
 
 url_base = "https://api.twitch.tv/helix/"
+url_clips_base = f"https://www.twitch.tv/{md.TwitchUsername}/clip/"
 
 header = {
     "client-id": f"{md.TwitchClientID}",
@@ -19,16 +21,13 @@ header = {
 
 global msg
 global errorMsg
-global successMsg
 global errorBoolean
 global sts_code
 
 msg = ""
 errorMsg = None
-successMsg = ""
 errorBoolean = False
 sts_code = None
-
 
 def getUserID(username: str):
     url = "{}users?login={}".format(url_base, username)
@@ -71,9 +70,85 @@ def modifyChannel(game_id, live_title, broadcaster_language):
     else:
         msg = f"Error to update Stream Info."
 
-    return msg
+    # return msg
 
-# Funcionando com Try
+def createClip():
+    global msg
+    global ClipID
+
+    global errorBoolean
+    global errorMsg
+    url = "{}clips?broadcaster_id={}".format(url_base, user_id)
+
+    try:
+        errorBoolean = False
+        r = requests.post(url, headers={
+            "client-id": f"{md.TwitchClientID}",
+            "Authorization": f"Bearer {md.TwitchClientSecret}"
+        })
+
+        sts_code = r.status_code
+        response = r.json()
+
+        ClipID = response["data"][0]["id"]
+
+        # print("Código de resposta:", sts_code)
+        if sts_code >= 199 and sts_code <= 299:
+            msg = "Clip Created!"
+            md.SaveClips(f"{url_clips_base}{ClipID}\n")
+            getClip(ClipID)
+
+        # print("Clip ID:", ClipID)
+
+    except KeyError as e:
+        print(f"Ocorreu um Erro. {e}")
+        errorBoolean = True
+        errorMsg = f"{e}"
+
+    # return msg
+
+    # print(response["data"])
+
+def getClip(clipID):
+    global msg
+
+    global errorBoolean
+    global errorMsg
+
+    url = "{}clips?id={}".format(url_base, clipID)
+
+    try:
+        errorBoolean = False
+        r = requests.get(url, headers={
+            "client-id": f"{md.TwitchClientID}",
+            "Authorization": f"Bearer {md.TwitchClientSecret}"
+        })
+
+        sts_code = r.status_code
+
+        response = r.json()
+
+        ClipData = response["data"]
+        # ClipID = response["data"][0]["id"]
+
+        print("Get Clip Data:", ClipData)
+
+    except KeyError as e:
+        print(f"Ocorreu um Erro. {e}")
+        errorBoolean = True
+        errorMsg = f"{e}"
+
+    # print("Código de resposta:", sts_code)
+
+    # if sts_code >= 199 and sts_code <= 299:
+    #     msg = "Clip Get success"
+    # else:
+    #     msg = f"Error to Get Clip!"
+
+    # # return msg
+
+    # print("Clip Data:", ClipData)
+
 def getSpecsCount(username: str):
     global count
     global errorBoolean
@@ -130,13 +205,14 @@ def createRewards(title: str, cost: int, prompt = None, is_enabled = True,
     print(response)
 
 def getAllRewards():
+    global result
+
     username = getUserID(md.TwitchUsername)
     url = "{}channel_points/custom_rewards?broadcaster_id={}".format(url_base, username)
 
     r = requests.get(url, headers=header)
-    global result
     result = r.json()["data"]
-    print(result)
+    print("Rewards:", result)
 
     print("Response Code: ", r.status_code)
 

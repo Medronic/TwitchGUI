@@ -13,7 +13,7 @@
                     "DescriptionOfCategory": "Gerencie suas streams aqui"
                 },
                 "Texts": {
-                    "Game": "Jogo",
+                    "Game": "Jogo:",
                     "Title": "Título",
                     "GoLiveNotification": "Notificação de Live",
                     "Category": "Categoria",
@@ -21,11 +21,15 @@
                     "Tags": "Tags",
                     "StreamLanguage": "Idioma da Live",
                     "Rerun": "Rerun",
-                    "Viewers": "Espectadores:"
+                    "Viewers": "Espectadores:",
+                    "HasDelay": "Live com Delay?",
+                    "ClipStatus": "Status do Clip"
                 },
                 "Buttons": {
                     "ChangeSettings": "Alterar Configurações",
-                    "ViewersRefresh": "Atualizar Espectadores"
+                    "ViewersRefresh": "Atualizar Espectadores",
+                    "CreateClip": "Criar Clip",
+                    "GetClipStatus": "Mostrar Status do Clip"
                 }
             },
             "Rewards": {
@@ -101,7 +105,7 @@
                     "DescriptionOfCategory": "Manage your stream here"
                 },
                 "Texts": {
-                    "Game": "Game",
+                    "Game": "Game:",
                     "Title": "Title",
                     "GoLiveNotification": "Live Notification",
                     "Category": "Category",
@@ -109,11 +113,15 @@
                     "Tags": "Tags",
                     "StreamLanguage": "Live Language",
                     "Rerun": "Rerun",
-                    "Viewers": "Viewers:"
+                    "Viewers": "Viewers:",
+                    "HasDelay": "Live com Delay?",
+                    "ClipStatus": "Status do Clip"
                 },
                 "Buttons": {
                     "ChangeSettings": "Change Settings",
-                    "ViewersRefresh": "Update Viewers list"
+                    "ViewersRefresh": "Update Viewers list",
+                    "CreateClip": "Create Clip",
+                    "GetClipStatus": "Show Status of Clip"
                 }
             },
             "Rewards": {

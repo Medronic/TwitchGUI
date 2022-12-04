@@ -1,8 +1,10 @@
-import libs.Utils as md
-import PySimpleGUI as sg
-import libs.Twitch as ttv
-
+import webbrowser as web
 import os
+import asyncio
+
+import libs.Utils as md
+import libs.Twitch as ttv
+import PySimpleGUI as sg
 
 md.LoadSettings()
 
@@ -12,7 +14,7 @@ sg.theme("DarkPurple4")
 # TTVsecret = os.environ.get("TwitchSecret")
 
 ManageStreamTab = [
-    [sg.Text("Game:"), sg.Drop(values=("491487", "491487 - Dead by Daylight",
+    [sg.Text(f"{md.mgtStream_lblGame}"), sg.Drop(values=("491487", "491487 - Dead by Daylight",
     "21779 - League of Legends",
     "32982 - Grand Theft Auto V",
     "512953 - Elden Ring",
@@ -42,7 +44,12 @@ ManageStreamTab = [
     [sg.Text(f"============================ {md.mgtStream_lblViewers} ============================")],
     [sg.Text(f"{md.mgtStream_lblViewers}"), sg.Text("0", key="total_viewers", font='15px'), sg.Button(f"{md.mgtStream_btnViewersRefresh}", key="update_viewers", font='15px')],
 
-    # [sg.Button("Banimentos", key="bans")]
+    [sg.Text(f"============================ Clip ============================")],
+    # [sg.Text(f"{md.mgtStream_lblHasDelay}"), sg.Drop(values=("False", "True"), default_value="False", key="has_delay", readonly=True)],
+    [sg.Button(f"{md.mgtStream_btnCreateClip}", key="create_clip")],
+
+    [sg.Text(f"{md.mgtStream_lblClipStatus}"), sg.Input("Your CLIP ID Here", key="clip_id"), sg.Button(f"{md.mgtStream_btnGetClipStatus}", key="get_clip_status")]
+    
 ]
 
 ToolsTab = [
@@ -118,11 +125,26 @@ while True:
              sg.popup(f"Fill the fields {md.mgtStream_lblGame} and {md.mgtStream_lblTitle}!", title="Fields in Blank")
         else:
             ttv.modifyChannel(game_id=GameID, live_title=Title, broadcaster_language=Lng)
+            md.SaveLogs(ttv.msg)
             sg.popup(f"{ttv.msg}", title="Response Code")
 
     if event == "start_comercial":
         ad_time = values["ad_time"]
         ttv.startCommercial(ad_time)
+
+    if event == "create_clip":
+        # HasDelay = values["has_delay"]
+        # ttv.createClip(HasDelay)
+        ttv.createClip()
+        if ttv.msg == "Clip Created!":
+            web.open(f"https://www.twitch.tv/{md.TwitchUsername}/clip/{ttv.ClipID}")
+        else:
+            sg.popup("Error to create clip! try again!", "Error")
+
+    if event == "get_clip_status":
+        clip_id = values["clip_id"]
+        # Futuramente criar uma janela para exibir os dados
+        ttv.getClip(clip_id)
 
     if event == "save_settings":
         Lng = values["language"]
@@ -132,7 +154,7 @@ while True:
 
         md.SaveSettings(lang=Lng, theme="Default", TwUsername=TwUsername, TwClient=TwClient, TwSecret=TwSecret)
 
-        sg.popup("Settings saved!", title="Success")
+        sg.popup("Settings Saved!\nPlease restart Twitch GUI!", title="Success")
 
     if event == "update_viewers":
             viewers = ttv.getSpecsCount(f"{md.TwitchUsername}")
@@ -157,7 +179,7 @@ while True:
         CooldownNumber = values["reward_cooldown"]
 
         if not title and cost:
-             sg.popup("Fill the fields Title and Cost!", title="Fields in Blank")
+             sg.popup(f"Fill the fields {md.reward_lblName} and {md.reward_lblPrice}!", title="Fields in Blank")
         else:
             ttv.createRewards(title=title, cost=cost, prompt=msg, is_enabled=status, is_user_input_required=CommentBoolean, is_max_per_stream_enabled=MaxPerStreamBoolean, max_per_stream=MaxPerStreamNumber, is_max_per_user_per_stream_enabled=MaxPerUserBoolean, max_per_user_per_stream=MaxPerUserNumber, is_global_cooldown_enabled=CooldownBoolean, global_cooldown_seconds=CooldownNumber)
             sg.popup(f"{ttv.sts_code}", title="Response Code")
