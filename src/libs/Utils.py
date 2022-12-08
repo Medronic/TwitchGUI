@@ -15,27 +15,114 @@ SAVE_SETTINGS = "Salvando configurações..."
 SAVE_SETTINGS_SUCCESS = "Configurações salvas com sucesso!"
 SAVE_SETTINGS_ERROR = "Erro ao salvar configurações!"
 
-data = dt.datetime.now()
+LOGS_FILE = "logs.txt"
+CLIPS_FILE = "clips.txt"
 
-# Função Salvar arquivos de Log
-def SaveLogs(p1):
-    with open('logs.txt', 'a', encoding='utf-8') as outfile:
-        outfile.write(f"{data} {p1}")
+date = dt.datetime.now()
 
-def SaveClips(ClipURL):
-    data = dt.datetime.now()
-    with open('clips.txt', 'a', encoding='utf-8') as outfile:
-        outfile.write(f"{ClipURL}")
 
-# Função para formatar o List Box removendo espaços e caracteres, apenas deixando números
-def format_string(d1):
-    # chars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z", " "]
-    global result_final
-    numbers = ["0","1","2","3","4","5","6","7","8","9"]
-    for i in range(len(d1)):
-        if d1[i] not in numbers:
-            d1 = d1[:i] + " " + d1[i+1:]
-    result_final = d1
+GamesListName = ["", "Dead by Daylight",
+    "League of Legends",
+    "Grand Theft Auto V",
+    "Elden Ring",
+    "VALORANT",
+    "Fortnite",
+    "Apex Legends",
+    "World of Warcraft",
+    "Counter-Strike: Global Offensive",
+    "Lost Ark",
+    "Dota 2",
+    "Minecraft",
+    "Hearthstone",
+    "Rust"]
+
+GamesListIDs = [
+    "0",
+    "491487",
+    "21779"
+    ]
+
+LangListName = [
+    "",
+    "English",
+    "Bahasa Indonesia",
+    "Català",
+    "Dansk",
+    "Deutsch",
+    "Español",
+    "Français",
+    "Italiano",
+    "Magyar",
+    "Nederlands",
+    "Norsk",
+    "Polski",
+    "Português",
+    "Română",
+    "Slovenčina",
+    "Suomi",
+    "Svenska",
+    "Tagalog",
+    "Tiếng Việt",
+    "Türkçe",
+    "Čeština",
+    "Ελληνικά",
+    "Български",
+    "Русский",
+    "Українська",
+    "العربية",
+    "بهاس ملايو",
+    "मानक हिन्दी",
+    "ภาษาไทย",
+    "中文",
+    "日本語",
+    "粵語",
+    "한국어",
+    "American Sign Language",
+    "Other"
+    ]
+
+LangListIDs = [
+    "",
+    "en",
+    "id",
+    "ca",
+    "da",
+    "de",
+    "es",
+    "fr",
+    "it",
+    "hu",
+    "nl",
+    "no",
+    "pl",
+    "pt",
+    "ro",
+    "sk",
+    "fi",
+    "sv",
+    "tl",
+    "vi",
+    "tr",
+    "cs",
+    "el",
+    "bg",
+    "uk",
+    "ru",
+    "ar",
+    "ms",
+    "hi",
+    "th",
+    "zh",
+    "ja",
+    "zh-hk",
+    "ko",
+    "asl",
+    "other"
+]
+
+def SaveFile(fileName, d1=None):
+    with open(f"{fileName}", "a", encoding="utf-8") as outfile:
+        outfile.write(f"{d1}")
 
 # Função para Ler a Lista de Games
 
@@ -60,7 +147,7 @@ def format_string(d1):
 # Função Ler as Configurações e Linguagens
 def LoadSettings():
     print("Carregando configurações...")
-    SaveLogs(f"Loading settings...\n")
+    SaveFile(fileName=LOGS_FILE, d1=f"{date} Loading settings...\n")
 
     if os.path.isfile('settings.json'):
         arquivo_json = open('settings.json', 'r', encoding='utf-8')
@@ -83,13 +170,13 @@ def LoadSettings():
         TwitchClientSecret = data['Settings']['Twitch']['ClientSecret']
 
         print("Settings loaded successfully!")
-        SaveLogs(f"Settings loaded successfully!\n") # Sucesso
+        SaveFile(fileName=LOGS_FILE, d1=f"{date} Settings loaded successfully!\n")
     else:
         print("Settings file not found! Creating default settings file...")
-        SaveLogs("Settings file not found! Creating default settings file...\n") # Arquivo não encontrado, criando arquivo...
+        SaveFile(fileName=LOGS_FILE, d1=f"{date} Settings file not found! Creating default settings file...\n")
 
     print("Loading Languages...")
-    SaveLogs(f"Loading Languages...\n")
+    SaveFile(fileName=LOGS_FILE, d1=f"{date} Loading Languages...\n")
 
     if os.path.isfile('languages.json'):
         arquivo_json = open('languages.json', 'r', encoding='utf-8')
@@ -210,10 +297,10 @@ def LoadSettings():
         About_lblFileUnziped = data[f'{AppLanguage}'][0]['About']['Texts']['Version']['UpdateMsgs']['FileUnziped']
         About_lblErrorToUnzip = data[f'{AppLanguage}'][0]['About']['Texts']['Version']['UpdateMsgs']['ErrorToUnzip']
 
-        msgLog = f"Language Settings successfully loaded!\n"
-        SaveLogs(msgLog)
+        SaveFile(fileName=LOGS_FILE, d1=f"{date} Language Settings successfully loaded!\n")
     else:
-        SaveLogs(f"Language file settings not found! Creating default language file...\n")
+        SaveFile(LOGS_FILE, d1=data, d2=f"")
+        SaveFile(fileName=LOGS_FILE, d1=f"{date} Language file settings not found! Creating default language file...\n")
 
 # Função verificar por atualizações
 def checkUpdate():
@@ -223,22 +310,20 @@ def checkUpdate():
     r = requests.get(url)
     serverVersion = float(r.text)
 
-    SaveLogs('Checking for updates...\n')
+    SaveFile(fileName=LOGS_FILE, d1=f"{date} Checking for updates...\n")
     
     # print("Versão do Servidor:", serverVersion)
     # print("Versão do Programa (Local)", AppVersion)
     
     if AppVersion != serverVersion:
-        SaveLogs('New version found!\n')
+        SaveFile(fileName=LOGS_FILE, d1=f"{date} New version found!\n")
         needUpdate = True
-        
         update()
     else:
-        SaveLogs('No new version found!\n')
+        SaveFile(fileName=LOGS_FILE, d1=f"{date} No new version found!\n")
         needUpdate = False
 
 # Função atualizar
-
 def update():
     global folder
     global file_name
@@ -254,18 +339,18 @@ def update():
     open(f'{file_name}', 'wb').write(r.content)
 
     updateMsg = f'{About_lblDownloaded}'
-    SaveLogs(f'{updateMsg}\n')
-
+    SaveFile(fileName=LOGS_FILE, d1=f"{date} {updateMsg}\n")
     try:
         with zipfile.ZipFile(f'{file_name}','r') as zip_ref:
             zip_ref.extractall(f'{folder}')
             
             sleep(2)
             updateMsg = f'{About_lblFileUnziped}' + folder
-            SaveLogs(f'{updateMsg}\n')
+            SaveFile(fileName=LOGS_FILE, d1=f"{date} {updateMsg}\n")
     except zipfile.BadZipfile as e:
         print("Bad File")
         updateMsg = "Error (Bad File). Maybe Update URL is invalid!"
+        SaveFile(fileName=LOGS_FILE, d1=f"{date} {updateMsg}\n")
         os.remove(f"{file_name}")
 
 

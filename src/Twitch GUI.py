@@ -11,27 +11,14 @@ md.LoadSettings()
 sg.theme("DarkPurple4")
 
 ManageStreamTab = [
-    [sg.Text(f"{md.mgtStream_lblGame}"), sg.Drop(values=("491487", "491487 - Dead by Daylight",
-    "21779 - League of Legends",
-    "32982 - Grand Theft Auto V",
-    "512953 - Elden Ring",
-    "516575 - VALORANT",
-    "33214 - Fortnite",
-    "511224 - Apex Legends",
-    "18122 - World of Warcraft",
-    "32399 - Counter-Strike: Global Offensive",
-    "490100 - Lost Ark",
-    "29595 - Dota 2",
-    "490130 - Minecraft",
-    "138585 - Hearthstone",
-    "263490 - Rust"), default_value="491487", key="stream_game", readonly=True)],
-    
+
     [sg.Text(f"{md.mgtStream_lblTitle}"), sg.Input(key="stream_title", size=(40, 1))],
-    [sg.Text(f"{md.mgtStream_lblGoLiveNotification}"), sg.Input(key="stream_goLiveNotification", size=(15, 1))],
-    [sg.Text(f"{md.mgtStream_lblCategory}"), sg.Input(key="stream_category", size=(15, 1))],
-    [sg.Text(f"{md.mgtStream_lblAudience}"), sg.Drop(values=("Everyone", "Subs Only"), default_value="Everyone", key="stream_audience", readonly=True)],
-    [sg.Text(f"{md.mgtStream_lblTags}"), sg.Input(key="stream_tags", size=(15, 1))],
-    [sg.Text(f"{md.mgtStream_lblStreamLng}"), sg.Drop(values=("pt","en"), default_value="pt", key="stream_language", readonly=True)],
+    [sg.Text(f"{md.mgtStream_lblGame}"), sg.Drop(values=(md.GamesListName), default_value="Dead by Daylight", key="stream_game", readonly=True)],
+    [sg.Text(f"{md.mgtStream_lblStreamLng}"), sg.Drop(values=(md.LangListName), default_value="Português", key="stream_language", readonly=True)],
+    # [sg.Text(f"{md.mgtStream_lblGoLiveNotification}"), sg.Input(key="stream_goLiveNotification", size=(15, 1))],
+    # [sg.Text(f"{md.mgtStream_lblCategory}"), sg.Input(key="stream_category", size=(15, 1))],
+    # [sg.Text(f"{md.mgtStream_lblAudience}"), sg.Drop(values=("Everyone", "Subs Only"), default_value="Everyone", key="stream_audience", readonly=True)],
+    # [sg.Text(f"{md.mgtStream_lblTags}"), sg.Input(key="stream_tags", size=(15, 1))],
 
     [sg.Button(f"{md.mgtStream_btnChangeStgs}", key="change_stream_data", font='15px')],
 
@@ -50,9 +37,9 @@ ManageStreamTab = [
 ]
 
 ToolsTab = [
-    [sg.Text('User:', key=''), sg.Input(f"teste", key='UserInformation'), sg.Button('Total Seguidores', key='getFollowers', size=(15), font='15px')],
+    [sg.Text('User:', key=''), sg.Input(f"", key='UserInformation'), sg.Button('Total Seguidores', key='getFollowers', size=(15), font='15px')],
     [sg.Button('Enviar Mensagem', key='send_msg', size=(15), font='15px')],
-    [sg.Multiline('123', key='msg', text_color='white', size=(480, 20), font='15px')]
+    [sg.Multiline('', key='msg', text_color='white', size=(480, 20), font='15px')]
 ]
 
 SettingsTab = [
@@ -114,33 +101,53 @@ while True:
         break
 
     if event == "change_stream_data":
-        GameID = values["stream_game"]
         Title = values["stream_title"]
-        Lng = values["stream_language"]
+        GameName = values["stream_game"]
+        LngName = values["stream_language"]
 
-        if not GameID and Title:
-             sg.popup(f"Fill the fields {md.mgtStream_lblGame} and {md.mgtStream_lblTitle}!", title="Fields in Blank")
-        else:
-            ttv.modifyChannel(game_id=GameID, live_title=Title, broadcaster_language=Lng)
-            md.SaveLogs(ttv.msg)
-            sg.popup(f"{ttv.msg}", title="Response Code")
+        try:
+            GameNameIndex = md.GamesListName.index(GameName)
+            GameID = md.GamesListIDs[GameNameIndex]
+
+            LangNameIndex = md.LangListName.index(LngName)
+            LangID = md.LangListIDs[LangNameIndex]
+
+            print("Game Name Index: " + str(GameNameIndex))
+            print("Game ID Index: " + str(GameID))
+
+            print("Lang Name Index: " + str(LangNameIndex))
+            print("Lang ID Index: " + str(LangID))
+
+            if not Title:
+                sg.popup(f"Fill the fields {md.mgtStream_lblTitle}!", 
+                title="Fields in Blank")
+            else:
+                ttv.modifyChannel(game_id=GameID, live_title=Title, broadcaster_language=LangID)
+                md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Modify Channel] {ttv.msg}\n")
+                sg.popup(f"{ttv.msg}", title="Response Code")
+        except IndexError as e:
+            sg.popup(f"Error... Maybe The List of Games or Language is index out of range.", title="Error")
+            md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Modify Channel] {e}\n")
 
     if event == "start_comercial":
         ad_time = values["ad_time"]
         ttv.startCommercial(ad_time)
+        if ttv.errorBoolean != True:
+            sg.popup(f"{ttv.msg}", title="Success")
+            md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Start Comercial] {ttv.msg}\n")
+        else:
+            sg.popup(f"{ttv.msg}", title="Error to run AD")
+            md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Start Comercial] {ttv.msg}\n")
 
     if event == "create_clip":
-        # HasDelay = values["has_delay"]
-        # ttv.createClip(HasDelay)
         ttv.createClip()
         if ttv.msg == "Clip Created!":
             web.open(f"https://www.twitch.tv/{md.TwitchUsername}/clip/{ttv.ClipID}")
         else:
-            sg.popup("Error to create clip! try again!", "Error")
+            sg.popup("Error to create clip!\nPossible error: your live stream is offline\n\nSolution: start your live stream!", title="Create Clip - Error")
 
     if event == "get_clip_status":
         clip_id = values["clip_id"]
-        # Futuramente criar uma janela para exibir os dados
         ttv.getClip(clip_id)
 
     if event == "save_settings":
@@ -152,12 +159,14 @@ while True:
         md.SaveSettings(lang=Lng, theme="Default", TwUsername=TwUsername, TwClient=TwClient, TwSecret=TwSecret)
 
         sg.popup("Settings Saved!\nPlease restart Twitch GUI!", title="Success")
+        md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Save Settings] {ttv.msg}\n")
 
     if event == "update_viewers":
             viewers = ttv.getSpecsCount(f"{md.TwitchUsername}")
             window['total_viewers'].update(viewers)
             if ttv.errorBoolean == True:
-                sg.popup(f"{ttv.errorMsg}", title="Response Code")
+                sg.popup(f"{ttv.msg}\n", title="Error")
+                md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Count Viewers] Error to get viewers! Possible error: Your live stream is offline\n")
 
     if event == "create_reward":
         title = values["reward_name"]

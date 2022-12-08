@@ -20,19 +20,20 @@ header = {
 }
 
 global msg
-global errorMsg
 global errorBoolean
 global sts_code
 
 msg = ""
-errorMsg = None
 errorBoolean = False
 sts_code = None
 
 def getUserID(username: str):
     url = "{}users?login={}".format(url_base, username)
 
+    global errorBoolean
+    global msg
     global user_id
+
     
     try:
         errorBoolean = False
@@ -41,12 +42,12 @@ def getUserID(username: str):
         return user_id
     except IndexError as e:
         errorBoolean = True
-        errorBoolean = "Error... User not found!"
+        msg = "Error... User not found!"
 
 user_id = getUserID(f"{md.TwitchUsername}")
 
-# Aparentemente funcional
 def modifyChannel(game_id, live_title, broadcaster_language):
+    global errorBoolean
     global msg
 
     url = "{}channels?broadcaster_id={}".format(url_base, user_id)
@@ -55,29 +56,31 @@ def modifyChannel(game_id, live_title, broadcaster_language):
         "game_id": f"{game_id}", "title": f"{live_title}", 
         "broadcaster_language": f"{broadcaster_language}"
     }
+    errorBoolean = False
     r = requests.patch(url, headers={
         "client-id": f"{md.TwitchClientID}",
         "Authorization": f"Bearer {md.TwitchClientSecret}",
         'Content-Type': 'application/json'
     }, json=payload)
-
+    
     sts_code = r.status_code
 
     # print("Código de resposta:", sts_code)
 
     if sts_code >= 199 and sts_code <= 299:
+        errorBoolean = False
         msg = "Stream Info updated successfully."
     else:
-        msg = f"Error to update Stream Info."
+        errorBoolean = True
+        msg = f"Error to update Stream Info.\nPossible error: The first three fields are empty\n\nSolution: Fill the empty fields mentioned (3)"
 
     # return msg
 
 def createClip():
+    global errorBoolean
     global msg
     global ClipID
 
-    global errorBoolean
-    global errorMsg
     url = "{}clips?broadcaster_id={}".format(url_base, user_id)
 
     try:
@@ -95,7 +98,7 @@ def createClip():
         # print("Código de resposta:", sts_code)
         if sts_code >= 199 and sts_code <= 299:
             msg = "Clip Created!"
-            md.SaveClips(f"{url_clips_base}{ClipID}\n")
+            md.SaveClips(fl=md.LOGS_FILE, d1=f"{url_clips_base}{ClipID}")
             getClip(ClipID)
 
         # print("Clip ID:", ClipID)
@@ -103,17 +106,15 @@ def createClip():
     except KeyError as e:
         print(f"Ocorreu um Erro. {e}")
         errorBoolean = True
-        errorMsg = f"{e}"
+        msg = f"{e}"
 
     # return msg
 
     # print(response["data"])
 
 def getClip(clipID):
-    global msg
-
     global errorBoolean
-    global errorMsg
+    global msg
 
     url = "{}clips?id={}".format(url_base, clipID)
 
@@ -136,7 +137,7 @@ def getClip(clipID):
     except KeyError as e:
         print(f"Ocorreu um Erro. {e}")
         errorBoolean = True
-        errorMsg = f"{e}"
+        msg = f"{e}"
 
     # print("Código de resposta:", sts_code)
 
@@ -145,14 +146,14 @@ def getClip(clipID):
     # else:
     #     msg = f"Error to Get Clip!"
 
-    # # return msg
+    # return msg
 
     # print("Clip Data:", ClipData)
 
 def getSpecsCount(username: str):
     global count
     global errorBoolean
-    global errorMsg
+    global msg
 
     url = "{}streams?user_login={}".format(url_base, username)
 
@@ -163,7 +164,7 @@ def getSpecsCount(username: str):
         return count
     except IndexError as e:
         errorBoolean = True
-        errorMsg = f"Error... Maybe you are Offline (Live)"
+        msg = f"Error to get viewers!\nPossible error: Your live stream is offline\n\nSolution: Start your Live Stream!"
 
 def createRewards(title: str, cost: int, prompt = None, is_enabled = True, 
     background_color = "#453C67", is_user_input_required = True, 
@@ -217,19 +218,51 @@ def getAllRewards():
     print("Response Code: ", r.status_code)
 
 def startCommercial(length: int):
+    global errorBoolean
+    global msg
+    global retry_timer
+
+    RETRY_AFTER = 10
+
     url = "{}channels/commercial".format(url_base)
     
     payload = {
-        "broadcaster_id": "41245072",
+        "broadcaster_id": f"{getUserID(md.TwitchUsername)}",
         "length": length
     }
+
+    errorBoolean = False
 
     r = requests.post(url, headers={
         "client-id": f"{md.TwitchClientID}",
         "Authorization": f"Bearer {md.TwitchClientSecret}",
         'Content-Type': 'application/json'
-        }, json=payload)
+    }, json=payload)
 
+
+    sts_code = r.status_code
     response = r.json()
 
-    print(response)
+    # Verificar pela ciscustancia caso o tempo do AD for mais de 180 
+    # se irá retornar um tempo maior para o proximo AD
+
+    if sts_code == 200:
+        errorBoolean = False
+        retry_timer = response["data"][0]["retry_after"]
+        msg = f"Starting commercial break. Keep in mind you are still live and not all viewers will receive a commercial. You can run another AD in {retry_timer} seconds"
+    elif sts_code == 400:
+        errorBoolean = True
+        msg = f"Bad Request."
+    elif sts_code == 401:
+        errorBoolean = True
+        msg = f"Unauthorized."
+    elif sts_code == 404:
+        errorBoolean = True
+        msg = f"Not Found."
+    elif sts_code == 429:
+        errorBoolean = True
+        msg = f"Too Many Requests. Try again in {RETRY_AFTER} Minutes"
+
+    else: 
+        msg = f"Response Code: {sts_code}"
+    # print(f"Response Code: {sts_code}")
