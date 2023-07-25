@@ -11,6 +11,7 @@ Twitch
 - Number of Viewers (In Live)
 - Create Clips [Soon implement with Async]
 - Create Rewards
+- Get total of Followers
 
 Application
 - Multi Language
@@ -19,8 +20,9 @@ Application
 ## To do
 Features
 - List Rewards and Delete them
-- Get total of Followers
 - Send msgs
+
+- Translate the new features
 
 Prevent Errors
 - Check Inputs
