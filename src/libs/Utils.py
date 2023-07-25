@@ -20,27 +20,14 @@ CLIPS_FILE = "clips.txt"
 
 date = dt.datetime.now()
 
-
-GamesListName = ["", "Dead by Daylight",
-    "League of Legends",
-    "Grand Theft Auto V",
-    "Elden Ring",
-    "VALORANT",
-    "Fortnite",
-    "Apex Legends",
-    "World of Warcraft",
-    "Counter-Strike: Global Offensive",
-    "Lost Ark",
-    "Dota 2",
-    "Minecraft",
-    "Hearthstone",
-    "Rust"]
-
-GamesListIDs = [
-    "0",
-    "491487",
-    "21779"
-    ]
+def read_json_file(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        return data
+    except Exception as e:
+        print(f"Erro ao ler o arquivo JSON: {e}")
+        return []
 
 LangListName = [
     "",
@@ -144,6 +131,7 @@ def SaveFile(fileName, d1=None):
 #         else:
 #             print("Erro ao carregar Lista de Jogos!")
 
+
 # Função Ler as Configurações e Linguagens
 def LoadSettings():
     print("Carregando configurações...")
@@ -158,6 +146,7 @@ def LoadSettings():
         global AppTheme
 
         global TwitchUsername
+        global TwitchAccessToken
         global TwitchClientID
         global TwitchClientSecret
 
@@ -166,6 +155,7 @@ def LoadSettings():
         AppTheme = data["Settings"]['Application']['Theme']
 
         TwitchUsername = data['Settings']['Twitch']['Username']
+        TwitchAccessToken = data['Settings']['Twitch']['AccessToken']
         TwitchClientID = data['Settings']['Twitch']['ClientID']
         TwitchClientSecret = data['Settings']['Twitch']['ClientSecret']
 
@@ -183,12 +173,14 @@ def LoadSettings():
         data = json.loads(arquivo_json.read())
 
         global lngManageStreamTab
+        global lngViewersTab
         global lngRewardsTab
         global lngFunctionsTab
         global lngSettingsTab
         global lngAboutTab
 
         lngManageStreamTab = data[f'{AppLanguage}'][0]['TabGroup']['StreamManager']
+        lngViewersTab = data[f'{AppLanguage}'][0]['TabGroup']['Viewers']
         lngRewardsTab = data[f'{AppLanguage}'][0]['TabGroup']['Rewards']
         lngFunctionsTab = data[f'{AppLanguage}'][0]['TabGroup']['Functions']
         lngSettingsTab = data[f'{AppLanguage}'][0]['TabGroup']['Settings']
@@ -230,6 +222,26 @@ def LoadSettings():
 
         mgtStream_btnCreateClip = data[f'{AppLanguage}'][0]['StreamManager']['Buttons']['CreateClip']
         mgtStream_btnGetClipStatus = data[f'{AppLanguage}'][0]['StreamManager']['Buttons']['GetClipStatus']
+
+        global viewers_lblReason
+        global viewers_lblTime
+        
+        viewers_lblReason = data[f'{AppLanguage}'][0]['Viewers']['Texts']['Reason']
+        viewers_lblTime = data[f'{AppLanguage}'][0]['Viewers']['Texts']['Time']
+
+        global viewers_btnViewersList
+        global viewers_btnViewersBannedsList
+        global viewers_btnBan
+        global viewers_btnUnBan
+        global viewers_btnTimeout
+        global viewers_btnUnTimeout
+
+        viewers_btnViewersList = data[f'{AppLanguage}'][0]['Viewers']['Buttons']['ViewersList']
+        viewers_btnViewersBannedsList = data[f'{AppLanguage}'][0]['Viewers']['Buttons']['ViewersBannedsList']
+        viewers_btnBan = data[f'{AppLanguage}'][0]['Viewers']['Buttons']['BanUser']
+        viewers_btnUnBan = data[f'{AppLanguage}'][0]['Viewers']['Buttons']['UnBanUser']
+        viewers_btnTimeout = data[f'{AppLanguage}'][0]['Viewers']['Buttons']['Timeout']
+        viewers_btnUnTimeout = data[f'{AppLanguage}'][0]['Viewers']['Buttons']['UnTimeout']
         
         global reward_lblName
         global reward_lblPrice
@@ -258,12 +270,14 @@ def LoadSettings():
         reward_btnCreate = data[f'{AppLanguage}'][0]['Rewards']['Buttons']['CreateReward']
 
         global Stgs_lblTwitchUsername
+        global Stgs_lblTwitchAccessToken
         global Stgs_lblTwitchClientID
         global Stgs_lblTwitchClientSecret
         global Stgs_lblLanguage
         global Stgs_btnSave
 
         Stgs_lblTwitchUsername = data[f'{AppLanguage}'][0]['Settings']['Texts']['Username']
+        Stgs_lblTwitchAccessToken = data[f'{AppLanguage}'][0]['Settings']['Texts']['AccessToken']
         Stgs_lblTwitchClientID = data[f'{AppLanguage}'][0]['Settings']['Texts']['ClientID']
         Stgs_lblTwitchClientSecret = data[f'{AppLanguage}'][0]['Settings']['Texts']['ClientSecret']
         Stgs_lblLanguage = data[f'{AppLanguage}'][0]['Settings']['Texts']['Language']
@@ -353,10 +367,9 @@ def update():
         SaveFile(fileName=LOGS_FILE, d1=f"{date} {updateMsg}\n")
         os.remove(f"{file_name}")
 
-
 # Função Salvar as Configurações
-def SaveSettings(lang, theme, TwUsername, TwClient, TwSecret):
+def SaveSettings(lang, theme, TwUsername, TwAccessToken, TwClient, TwSecret):
     data = {}
-    data['Settings'] = {'Application': {'Language': lang, 'Version': AppVersion, 'Theme': theme}, 'Twitch': {'Username': TwUsername, 'ClientID': TwClient, 'ClientSecret': TwSecret}}
+    data['Settings'] = {'Application': {'Language': lang, 'Version': AppVersion, 'Theme': theme}, 'Twitch': {'Username': TwUsername, 'AccessToken': TwAccessToken, 'ClientID': TwClient, 'ClientSecret': TwSecret}}
     with open('settings.json', 'w', encoding='utf-8') as outfile:
         json.dump(data, outfile)

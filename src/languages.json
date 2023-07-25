@@ -3,6 +3,7 @@
         {
             "TabGroup": {
                 "StreamManager": "Gerenciador de Stream",
+                "Viewers": "Espectadores",
                 "Rewards": "Recompensas",
                 "Functions": "Funções",
                 "Settings": "Configurações",
@@ -32,6 +33,20 @@
                     "GetClipStatus": "Mostrar Status do Clip"
                 }
             },
+            "Viewers":{
+                "Texts":{
+                    "Reason": "Motivo:",
+                    "Time": "Tempo:"
+                },
+                "Buttons":{
+                    "ViewersList": "Mostrar Espectadores",
+                    "ViewersBannedsList": "Espectadores Banidos",
+                    "BanUser": "Banir Usuário",
+                    "UnBanUser": "Desbanir Usuário",
+                    "Timeout": "Timeout Usuário",
+                    "UnTimeout": "UnTimeout Usuário"
+                }
+            },
             "Rewards": {
                 "Texts": {
                     "Name": "Nome",
@@ -57,6 +72,7 @@
                 "Texts":{
                     "Username": "Nome de Usuário (Twitch)",
                     "ClientID": "Client ID",
+                    "AccessToken": "Access Token",
                     "ClientSecret": "Client Secret",
                     "Language": "Idioma"
                 },
@@ -96,6 +112,7 @@
         {
             "TabGroup": {
                 "StreamManager": "Stream Manager",
+                "Viewers": "Viewers",
                 "Rewards": "Rewards",
                 "Functions": "Functions",
                 "Settings": "Settings",
@@ -124,6 +141,20 @@
                     "GetClipStatus": "Show Status of Clip"
                 }
             },
+            "Viewers":{
+                "Texts":{
+                    "Reason": "Reason:",
+                    "Time": "Time:"
+                },
+                "Buttons":{
+                    "ViewersList": "Get Viewers",
+                    "ViewersBannedsList": "Get Banned List",
+                    "BanUser": "Ban User",
+                    "UnBanUser": "UnBan User",
+                    "Timeout": "Timeout User",
+                    "UnTimeout": "UnTimeout User"
+                }
+            },
             "Rewards": {
                 "Texts": {
                     "Name": "Name",
@@ -149,6 +180,7 @@
                 "Texts":{
                     "Username": "Name of User (Twitch)",
                     "ClientID": "Client ID",
+                    "AccessToken": "Access Token",
                     "ClientSecret": "Client Secret",
                     "Language": "Language"
                 },
