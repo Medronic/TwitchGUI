@@ -1,7 +1,7 @@
 # Twitch GUI
 Manage your live streams with Twitch GUI!
 
-![python_eVodfv5kU8](https://user-images.githubusercontent.com/38893379/205496900-3e73df8d-af5b-4bf1-9cfe-9bac387be636.gif)
+![python_eVodfv5kU8](https://i.imgur.com/7p2SXrT.png))
 
 
 ## Features
