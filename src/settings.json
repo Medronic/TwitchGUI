@@ -1,1 +1,1 @@
-{"Settings": {"Application": {"Language": "english", "Version": "0.1", "Theme": "Default"}, "Twitch": {"Username": "", "ClientID": "", "ClientSecret": ""}}}
+{"Settings": {"Application": {"Language": "english", "Version": "0.1", "Theme": "Default"}, "Twitch": {"Username": "", "AccessToken": "", "ClientID": "", "ClientSecret": ""}}}
