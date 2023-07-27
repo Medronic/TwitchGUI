@@ -19,7 +19,6 @@ ManageStreamTab = [
     [sg.Text(f"{md.mgtStream_lblGame}"), sg.Input(size=(30, 1), key='search'), sg.Button('Pesquisar')],
     [sg.Listbox(values=[], size=(30, 3), key='games_list', visible=False,enable_events=True)],
 
-    # [sg.Text(f"{md.mgtStream_lblGame}"), sg.Drop(values=(md.GamesListName), default_value="Dead by Daylight", key="stream_game", readonly=True)],
     [sg.Text(f"{md.mgtStream_lblStreamLng}"), sg.Drop(values=(md.LangListName), default_value="Português", key="stream_language", readonly=True)],
 
     [sg.Button(f"{md.mgtStream_btnChangeStgs}", key="change_stream_data", font='15px')],
@@ -42,10 +41,6 @@ ManageStreamTab = [
     [sg.Text(f"============================ RAID ============================")],
 
     [sg.Text(f"Streamer:"), sg.Input("username_here", key="streamer_name", font='15px', size=(12, 5)), sg.Button(f"Iniciar Raid", key="start_raid", font='15px'), sg.Button(f"Cancelar Raid", key="cancel_raid", font='15px', disabled=True)]
-]
-
-RaidTab = [
-    
 ]
 
 ViewersTab = [
@@ -111,7 +106,6 @@ RewardTab = [
 layout = [
     [sg.TabGroup([
     [sg.Tab(f"{md.lngManageStreamTab}", ManageStreamTab),
-    # sg.Tab(f"Raid", RaidTab),
     sg.Tab(f"{md.lngViewersTab}", ViewersTab),
     sg.Tab(f"{md.lngRewardsTab}", RewardTab),
     sg.Tab(f"{md.lngFunctionsTab}", ToolsTab),
@@ -202,7 +196,7 @@ while True:
 
     if event == "create_clip":
         ttv.createClip()
-        if ttv.msg == "Clip Created!":
+        if ttv.errorBool != True:
             web.open(f"https://www.twitch.tv/{md.TwitchUsername}/clip/{ttv.ClipID}")
         else:
             sg.popup("Error to create clip!\nPossible error: your live stream is offline\n\nSolution: start your live stream!", title="Create Clip - Error")
@@ -264,12 +258,12 @@ while True:
         md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Save Settings] {ttv.msg}\n")
 
     if event == "update_viewers":
-            viewers = ttv.getSpecsCount(f"{md.TwitchUsername}")
-            if ttv.errorBool == True:
-                sg.popup(f"{ttv.msg}\n", title="Error")
-                md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Count Viewers] Error to get viewers! Possible error: Your live stream is offline\n")
-            else:
-                window['total_viewers'].update(viewers)
+        viewers = ttv.getSpecsCount(f"{md.TwitchUsername}")
+        if ttv.errorBool == True:
+            sg.popup(f"{ttv.msg}\n", title="Error")
+            md.SaveFile(fileName=md.LOGS_FILE, d1=f"{md.date} [Count Viewers] Error to get viewers! Possible error: Your live stream is offline\n")
+        else:
+            window['total_viewers'].update(viewers)
 
     if event == "create_reward":
         title = values["reward_name"]

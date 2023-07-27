@@ -33,12 +33,12 @@
                     "GetClipStatus": "Mostrar Status do Clip"
                 }
             },
-            "Viewers":{
-                "Texts":{
+            "Viewers": {
+                "Texts": {
                     "Reason": "Motivo:",
                     "Time": "Tempo:"
                 },
-                "Buttons":{
+                "Buttons": {
                     "ViewersList": "Mostrar Espectadores",
                     "ViewersBannedsList": "Espectadores Banidos",
                     "BanUser": "Banir Usuário",
@@ -65,18 +65,18 @@
                     "CreateReward": "Criar Recompensa"
                 }
             },
-            "Settings":{
-                "Popup":{
+            "Settings": {
+                "Popup": {
                     "DescriptionOfCategory": "Sobre as Configurações"
                 },
-                "Texts":{
+                "Texts": {
                     "Username": "Nome de Usuário (Twitch)",
                     "ClientID": "Client ID",
                     "AccessToken": "Access Token",
                     "ClientSecret": "Client Secret",
                     "Language": "Idioma"
                 },
-                "Buttons":{
+                "Buttons": {
                     "Save": "Salvar Configurações"
                 }
             },
@@ -105,6 +105,78 @@
                 "Buttons": {
                     "CheckUpdates": "Verificar Atualizações"
                 }
+            },
+            "Msgs": {
+                "Success": {
+                    "getUserID": "Id do Usuário: {}",
+                    "getChannelFollows": "Total de Seguidores: {}",
+                    "getViewersList": "A lista de usuários no chat foi exibida.",
+                    "banUser": "O usuário {} foi banido!",
+                    "unBanUser": "O usuário {} foi desbanido!",
+                    "getBannedList": "A lista de usuários banidos foi exibida.",
+                    "modifyChannel": "As alterações foram realizadas.",
+                    "createClip": "O clip foi criado.",
+                    "getClip": "Dados do clip foram exibidos.",
+                    "getSpecsCount": "Total de Espectadores foram exibidos.",
+                    "getAllRewards": "Todas as recompensas foram exibidas.",
+                    "startCommercial": "Comercial (AD) foi iniciado.  Você pode executar outro anúncio em {} segundos",
+                    "sendWhispers": "Mensagem foi enviada com sucesso! Usuário: {} | ID: {}",
+                    "ClearChat": "Todas as mensagens do chat foram deletadas.",
+                    "StartRaid": "A raid foi iniciada! Streamer: {}",
+                    "CancelRaid": "A raid foi cancelada."
+                },
+                "Error": {
+                    "getUserID": {
+                        "KeyError": "Ocorreu um erro! \n\nPossível causa:\n- Errro de Autorização.",
+                        "IndexError": "Ocorre um erro! \n\nPossível causa:\n- Usuário fornecido não existe."
+                    },
+                    "getChannelFollows": {
+                        "KeyError": "Ocorreu um erro."
+                    },
+                    "getViewersList": {
+                        "KeyError": "Erro ao pegar a lista de Espectadores!\n\nPossível causa: Sua transmissão está Offline\nSolução: Inicie sua Transmissão!"
+                    },
+                    "banUser": {
+                        "IndexError": "Ocorreu um erro!\n\nMotivo:\nVocê não selecionou alguém a ser banido!"
+                    },
+                    "getBannedList": {
+                        "ec": "Ocorreu um erro ao listar os usuários banidos."
+                    },
+                    "modifyChannel": {
+                        "ec": "Erro ao atualizar informações da transmissão.\n\n Possível causa: Os primeiro campo está vázio\n Solução: Preencha o campo mencionado (3)"
+                    },
+                    "createClip": {
+                        "KeyError": "Ocorreu um Erro."
+                    },
+                    "getClip": {
+                        "KeyError": "Ocorreu um Erro."
+                    },
+                    "getSpecsCount": {
+                        "IndexError": "Erro ao listar os espectadores!\n\nPossível causa: Sua transmissão está Offline\nSolução: Inicie a Transmissão"
+                    },
+                    "getAllRewards": {
+                        "ec": "Ocorreu um Erro."
+                    },
+                    "startCommercial": {
+                        "c400": "Bad Request.",
+                        "c401": "Unauthorized.",
+                        "c404": "Not Found.",
+                        "c429": "Muitas tentativas. Tente novamente em {} Segundos."
+                    },
+                    "sendWhispers": {
+                        "ec": "Ocorreu um erro ao enviar a mensagem.",
+                        "KeyError": "Ocorreu um Erro."
+                    },
+                    "ClearChat": {
+                        "ec": "Ocorreu algum erro ao tentar limpar o chat."
+                    },
+                    "StartRaid": {
+                        "KeyError": "Ocorreu um Erro."
+                    },
+                    "CancelRaid": {
+                        "c404": "Ocorreu um erro ao tentar cancelar a Raid!\n\n Motivo: A invasão já foi enviada ou não existe."
+                    }
+                }
             }
         }
     ],
@@ -117,7 +189,8 @@
                 "Functions": "Functions",
                 "Settings": "Settings",
                 "About": "About"
-            },"StreamManager": {
+            },
+            "StreamManager": {
                 "Popup": {
                     "DescriptionOfCategory": "Manage your stream here"
                 },
@@ -136,17 +209,17 @@
                 },
                 "Buttons": {
                     "ChangeSettings": "Change Settings",
-                    "ViewersRefresh": "Update Viewers list",
+                    "ViewersRefresh": "Update Viewers",
                     "CreateClip": "Create Clip",
                     "GetClipStatus": "Show Status of Clip"
                 }
             },
-            "Viewers":{
-                "Texts":{
+            "Viewers": {
+                "Texts": {
                     "Reason": "Reason:",
                     "Time": "Time:"
                 },
-                "Buttons":{
+                "Buttons": {
                     "ViewersList": "Get Viewers",
                     "ViewersBannedsList": "Get Banned List",
                     "BanUser": "Ban User",
@@ -173,18 +246,18 @@
                     "CreateReward": "Create Reward"
                 }
             },
-            "Settings":{
-                "Popup":{
+            "Settings": {
+                "Popup": {
                     "DescriptionOfCategory": "About Settings"
                 },
-                "Texts":{
+                "Texts": {
                     "Username": "Name of User (Twitch)",
                     "ClientID": "Client ID",
                     "AccessToken": "Access Token",
                     "ClientSecret": "Client Secret",
                     "Language": "Language"
                 },
-                "Buttons":{
+                "Buttons": {
                     "Save": "Save Settings"
                 }
             },
@@ -212,6 +285,78 @@
                 },
                 "Buttons": {
                     "CheckUpdates": "Check updates"
+                }
+            },
+            "Msgs": {
+                "Success": {
+                    "getUserID": "User ID: {}",
+                    "getChannelFollows": "Total Followers: {}",
+                    "getViewersList": "The list of users in the chat has been displayed.",
+                    "banUser": "User {} has been banned!",
+                    "unBanUser": "User {} has been unbanned!",
+                    "getBannedList": "The list of banned users has been displayed.",
+                    "modifyChannel": "Changes have been made.",
+                    "createClip": "The clip has been created.",
+                    "getClip": "Clip data has been displayed.",
+                    "getSpecsCount": "Total Viewers have been displayed.",
+                    "getAllRewards": "All rewards have been displayed.",
+                    "startCommercial": "Commercial (AD) started. You can run another ad in {} seconds.",
+                    "sendWhispers": "Message sent successfully! User: {} | ID: {}",
+                    "ClearChat": "All chat messages have been deleted.",
+                    "StartRaid": "The raid has been started! Streamer: {}",
+                    "CancelRaid": "The raid has been canceled."
+                },
+                "Error": {
+                    "getUserID": {
+                        "KeyError": "An error occurred!\n\nPossible cause:\n- Authorization error.",
+                        "IndexError": "An error occurred!\n\nPossible cause:\n- Provided user does not exist."
+                    },
+                    "getChannelFollows": {
+                        "KeyError": "An error occurred."
+                    },
+                    "getViewersList": {
+                        "KeyError": "Error fetching the list of viewers!\n\nPossible cause: Your broadcast is offline\nSolution: Start your broadcast!"
+                    },
+                    "banUser": {
+                        "IndexError": "An error occurred!\n\nReason:\nYou did not select anyone to ban!"
+                    },
+                    "getBannedList": {
+                        "ec": "An error occurred while listing banned users."
+                    },
+                    "modifyChannel": {
+                        "ec": "Error updating broadcast information.\n\nPossible cause: The first field is empty\nSolution: Fill in the mentioned field (3)"
+                    },
+                    "createClip": {
+                        "KeyError": "An error occurred."
+                    },
+                    "getClip": {
+                        "KeyError": "An error occurred."
+                    },
+                    "getSpecsCount": {
+                        "IndexError": "Error listing viewers!\n\nPossible cause: Your broadcast is offline\nSolution: Start the Broadcast"
+                    },
+                    "getAllRewards": {
+                        "ec": "An error occurred."
+                    },
+                    "startCommercial": {
+                        "c400": "Bad Request.",
+                        "c401": "Unauthorized.",
+                        "c404": "Not Found.",
+                        "c429": "Too many attempts. Try again in {} Seconds."
+                    },
+                    "sendWhispers": {
+                        "ec": "An error occurred while sending the message.",
+                        "KeyError": "An error occurred."
+                    },
+                    "ClearChat": {
+                        "ec": "An error occurred while trying to clear the chat."
+                    },
+                    "StartRaid": {
+                        "KeyError": "An error occurred."
+                    },
+                    "CancelRaid": {
+                        "c404": "An error occurred while trying to cancel the Raid!\n\nReason: The raid has already been sent or does not exist."
+                    }
                 }
             }
         }

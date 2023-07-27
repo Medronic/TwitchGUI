@@ -111,27 +111,6 @@ def SaveFile(fileName, d1=None):
     with open(f"{fileName}", "a", encoding="utf-8") as outfile:
         outfile.write(f"{d1}")
 
-# Função para Ler a Lista de Games
-
-# def LoadListGames():
-#     print("Carregando Lista de Jogos...")
-
-#     if os.path.isfile('my_list.json'):
-#         arquivo_json = open('my_list.json', 'r', encoding='utf-8')
-#         data = json.loads(arquivo_json.read())
-
-#         global gameID
-#         global gameName
-
-#         gameID = data["Games"][0]['id']
-#         # gameName = data["Games"]['name']
-
-#         for i in range(len(gameID)):
-#             print(gameID[i])
-#         else:
-#             print("Erro ao carregar Lista de Jogos!")
-
-
 # Função Ler as Configurações e Linguagens
 def LoadSettings():
     print("Carregando configurações...")
@@ -310,6 +289,100 @@ def LoadSettings():
         About_lblDownloaded = data[f'{AppLanguage}'][0]['About']['Texts']['Version']['UpdateMsgs']['Downloaded']
         About_lblFileUnziped = data[f'{AppLanguage}'][0]['About']['Texts']['Version']['UpdateMsgs']['FileUnziped']
         About_lblErrorToUnzip = data[f'{AppLanguage}'][0]['About']['Texts']['Version']['UpdateMsgs']['ErrorToUnzip']
+
+        # Mensagens de Sucesso
+
+        global Msgs_S_getUserID
+        global Msgs_S_getChannelFollows
+        global Msgs_S_getViewersList
+        global Msgs_S_banUser
+        global Msgs_S_unBanUser
+        global Msgs_S_getBannedList
+        global Msgs_S_modifyChannel
+        global Msgs_S_createClip
+        global Msgs_S_getClip
+        global Msgs_S_getSpecsCount
+        global Msgs_S_getAllRewards
+        global Msgs_S_startCommercial
+        global Msgs_S_sendWhispers
+        global Msgs_S_ClearChat
+        global Msgs_S_StartRaid
+        global Msgs_S_CancelRaid
+
+        Msgs_S_getUserID = data[f'{AppLanguage}'][0]['Msgs']['Success']['getUserID']
+        Msgs_S_getChannelFollows = data[f'{AppLanguage}'][0]['Msgs']['Success']['getChannelFollows']
+        Msgs_S_getViewersList = data[f'{AppLanguage}'][0]['Msgs']['Success']['getViewersList']
+        Msgs_S_banUser = data[f'{AppLanguage}'][0]['Msgs']['Success']['banUser']
+        Msgs_S_unBanUser = data[f'{AppLanguage}'][0]['Msgs']['Success']['unBanUser']
+        Msgs_S_getBannedList = data[f'{AppLanguage}'][0]['Msgs']['Success']['getBannedList']
+        Msgs_S_modifyChannel = data[f'{AppLanguage}'][0]['Msgs']['Success']['modifyChannel']
+        Msgs_S_createClip = data[f'{AppLanguage}'][0]['Msgs']['Success']['createClip']
+        Msgs_S_getClip = data[f'{AppLanguage}'][0]['Msgs']['Success']['getClip']
+        Msgs_S_getSpecsCount = data[f'{AppLanguage}'][0]['Msgs']['Success']['getSpecsCount']
+        Msgs_S_getAllRewards = data[f'{AppLanguage}'][0]['Msgs']['Success']['getAllRewards']
+        Msgs_S_startCommercial = data[f'{AppLanguage}'][0]['Msgs']['Success']['startCommercial']
+        Msgs_S_sendWhispers = data[f'{AppLanguage}'][0]['Msgs']['Success']['sendWhispers']
+        Msgs_S_ClearChat = data[f'{AppLanguage}'][0]['Msgs']['Success']['ClearChat']
+        Msgs_S_StartRaid = data[f'{AppLanguage}'][0]['Msgs']['Success']['StartRaid']
+        Msgs_S_CancelRaid = data[f'{AppLanguage}'][0]['Msgs']['Success']['CancelRaid']
+
+        # Mensagens de Erro
+
+        global Msgs_E_getUserID_KeyError
+        global Msgs_E_getUserID_IndexError
+        global Msgs_E_getChannelFollows_KeyError
+        global Msgs_E_getViewersList_KeyError
+        global Msgs_E_banUser_IndexError
+        global Msgs_E_getBannedList_ec
+        global Msgs_E_modifyChannel_ec
+        global Msgs_E_createClip_KeyError
+        global Msgs_E_getClip_KeyError
+        global Msgs_E_getSpecsCount_IndexError
+        global Msgs_E_getAllRewards_ec
+        global Msgs_E_startCommercial_c400
+        global Msgs_E_startCommercial_c401
+        global Msgs_E_startCommercial_c404
+        global Msgs_E_startCommercial_c429
+        global Msgs_E_sendWhispers_ec
+        global Msgs_E_sendWhispers_KeyError
+        global Msgs_E_ClearChat_ec
+        global Msgs_E_StartRaid_KeyError
+        global Msgs_E_CancelRaid_c404
+        
+        Msgs_E_getUserID_KeyError = data[f'{AppLanguage}'][0]['Msgs']['Error']['getUserID']["KeyError"]
+        Msgs_E_getUserID_IndexError = data[f'{AppLanguage}'][0]['Msgs']['Error']['getUserID']["IndexError"]
+
+        Msgs_E_getChannelFollows_KeyError = data[f'{AppLanguage}'][0]['Msgs']['Error']['getChannelFollows']["KeyError"]
+
+        Msgs_E_getViewersList_KeyError = data[f'{AppLanguage}'][0]['Msgs']['Error']['getViewersList']["KeyError"]
+
+        Msgs_E_banUser_IndexError = data[f'{AppLanguage}'][0]['Msgs']['Error']['banUser']["IndexError"]
+
+        Msgs_E_getBannedList_ec = data[f'{AppLanguage}'][0]['Msgs']['Error']['getBannedList']["ec"]
+
+        Msgs_E_modifyChannel_ec = data[f'{AppLanguage}'][0]['Msgs']['Error']['modifyChannel']["ec"]
+
+        Msgs_E_createClip_KeyError = data[f'{AppLanguage}'][0]['Msgs']['Error']['createClip']["KeyError"]
+
+        Msgs_E_getClip_KeyError = data[f'{AppLanguage}'][0]['Msgs']['Error']['getClip']["KeyError"]
+
+        Msgs_E_getSpecsCount_IndexError = data[f'{AppLanguage}'][0]['Msgs']['Error']['getSpecsCount']["IndexError"]
+
+        Msgs_E_getAllRewards_ec = data[f'{AppLanguage}'][0]['Msgs']['Error']['getAllRewards']["ec"]
+
+        Msgs_E_startCommercial_c400 = data[f'{AppLanguage}'][0]['Msgs']['Error']['startCommercial']["c400"]
+        Msgs_E_startCommercial_c401 = data[f'{AppLanguage}'][0]['Msgs']['Error']['startCommercial']["c401"]
+        Msgs_E_startCommercial_c404 = data[f'{AppLanguage}'][0]['Msgs']['Error']['startCommercial']["c404"]
+        Msgs_E_startCommercial_c429 = data[f'{AppLanguage}'][0]['Msgs']['Error']['startCommercial']["c429"]
+
+        Msgs_E_sendWhispers_ec = data[f'{AppLanguage}'][0]['Msgs']['Error']['sendWhispers']["ec"]
+        Msgs_E_sendWhispers_KeyError = data[f'{AppLanguage}'][0]['Msgs']['Error']['sendWhispers']["KeyError"]
+
+        Msgs_E_ClearChat_ec = data[f'{AppLanguage}'][0]['Msgs']['Error']['ClearChat']["ec"]
+
+        Msgs_E_StartRaid_KeyError = data[f'{AppLanguage}'][0]['Msgs']['Error']['StartRaid']["KeyError"]
+
+        Msgs_E_CancelRaid_c404 = data[f'{AppLanguage}'][0]['Msgs']['Error']['CancelRaid']["c404"]
 
         SaveFile(fileName=LOGS_FILE, d1=f"{date} Language Settings successfully loaded!\n")
     else:

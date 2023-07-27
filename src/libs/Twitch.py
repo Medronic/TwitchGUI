@@ -32,7 +32,8 @@ class Twitch:
         self.errorBool = False
         self.sts_code = None
 
-    # Working
+        self.ClipID = None
+
     def getUserID(self, username: str):
 
         url = "{}users?login={}".format(APIS_URL["BASE"], username)
@@ -46,17 +47,13 @@ class Twitch:
         # Possivelmente um erro de Autorização!
         except KeyError as e:
             self.errorBool = True
-            self.msg = """Ocorreu um erro! Possível causa:\n
-            
-            - Errro de Autorização."""
+            self.msg = f"{md.Msgs_E_getUserID_KeyError}"
             return self.msg
         
         # Quando o username fornecido não existir!
         except IndexError as e:
             self.errorBool = True
-            self.msg = """Ocorre um erro! Possível causa:\n
-            
-            - Usuário fornecido não existe."""
+            self.msg = f"{md.Msgs_E_getUserID_IndexError}"
             return self.msg
         
     def getChannelFollows(self):
@@ -66,9 +63,9 @@ class Twitch:
             self.errorBool = False
             r = requests.get(url, headers=self.Headers)
             self.msg = r.json()["total"]
-            return f"Total of Follows: {self.msg}"
+            return f"{md.Msgs_S_getChannelFollows}".format(self.msg)
         except KeyError as e:
-            print("Ocorreu um erro.")
+            print(f"{md.Msgs_E_getChannelFollows_KeyError}")
     
     # Not Working
     def getViewersList(self):
@@ -84,7 +81,7 @@ class Twitch:
 
         except IndexError as e:
             self.errorBool = True
-            self.msg = f"""Erro ao pegar a lista de Espectadores!\n\nPossível causa: Sua transmissão está Offline\n\nSolution: Inicie sua Transmissão!"""
+            self.msg = f"{md.Msgs_E_getViewersList_KeyError}"
             return self.msg
                 
     def banUser(self, viewer: str = "", reason: str = "", duration: int = ""):
@@ -108,9 +105,7 @@ class Twitch:
             print(response)
         except IndexError as e:
             self.errorBool = True
-            self.msg = f"""Ocorreu um erro! \n\nMotivo:\n
-            
-            Você não selecionou alguém a ser banido!"""
+            self.msg = f"{md.Msgs_E_banUser_IndexError}"
 
     def unBanUser(self, viewer: str = ""):
         viewer_id = self.getUserID(viewer)
@@ -126,7 +121,7 @@ class Twitch:
 
         if self.sts_code == 204:
             self.errorBool = False
-            self.msg = """Usuário desbanido com sucesso!"""
+            self.msg = f"{md.Msgs_S_unBanUser}".format(viewer)
             return self.msg
 
     def getBannedList(self):
@@ -141,7 +136,7 @@ class Twitch:
         if response.status_code == 200:
             return self.ViewersBannedList.json()["data"]
         else:
-            self.msg = """Ocorreu um erro ao listar os usuários banidos."""
+            self.msg = f"{md.Msgs_E_getBannedList_ec}"
             return self.msg
 
     def modifyChannel(self, game_id, live_title, broadcaster_language):
@@ -162,10 +157,10 @@ class Twitch:
 
         if self.sts_code >= 199 and self.sts_code <= 299:
             self.errorBool = False
-            self.msg = """Alterações feitas com sucesso!"""
+            self.msg = f"{md.Msgs_S_modifyChannel}"
         else:
             self.errorBool = True
-            self.msg = f"""Erro ao atualizar informações da transmissão.\n Possível causa: Os primeiro campo está vázio\n\n Solução: Preencha o campo mencionado (3)"""
+            self.msg = f"{md.Msgs_E_modifyChannel_ec}"
 
         return self.msg
 
@@ -175,26 +170,30 @@ class Twitch:
 
         url = "{}clips?broadcaster_id={}".format(APIS_URL["BASE"], user_id)
 
+        payload = {
+            "has_delay": False
+        }
+
         try:
             self.errorBool = False
-            r = requests.post(url, headers=self.Headers)
+            r = requests.post(url, headers=self.Headers, json=payload)
 
             self.sts_code = r.status_code
             response = r.json()
 
-            ClipID = response["data"][0]["id"]
+            self.ClipID = response["data"][0]["id"]
 
             if self.sts_code >= 199 and self.sts_code <= 299:
-                self.msg = "Clip Criado!"
-                # md.SaveClips(fl=md.LOGS_FILE, d1="{}{}").format(APIS_URL["CLIP"], ClipID)
-                self.getClip(ClipID)
+                self.msg = f"{md.Msgs_S_createClip}"
+                # md.SaveFile(fileName=md.CLIPS_FILE, d1=f"")
+                self.getClip(self.ClipID)
 
-            print("Clip ID:", ClipID)
+            print("Clip ID:", self.ClipID)
 
         except KeyError as e:
-            print(f"Ocorreu um Erro. {e}")
+            # print(f"{md.Msgs_E_createClip_KeyError}")
             self.errorBool = True
-            self.msg = f"{e}"
+            self.msg = f"{md.Msgs_E_createClip_KeyError}"
 
     def getClip(self, clipID):
 
@@ -214,9 +213,9 @@ class Twitch:
             print("Get Clip Data:", ClipData)
 
         except KeyError as e:
-            print(f"Ocorreu um Erro. {e}")
+            # print(f"{md.Msgs_E_getClip_KeyError}")
             self.errorBool = True
-            self.msg = f"{e}"
+            self.msg = f"{md.Msgs_E_getClip_KeyError}"
 
     def getSpecsCount(self, username: str):
 
@@ -229,7 +228,7 @@ class Twitch:
             return count
         except IndexError as e:
             self.errorBool = True
-            self.msg = f"""Erro ao listar os espectadores!\n\nPossível causa: Sua transmissão está Offline\n\nSolução: Inicie a Transmissão"""
+            self.msg = f"{md.Msgs_E_getSpecsCount_IndexError}"
             return self.msg
 
     def getAllRewards(self):
@@ -266,20 +265,20 @@ class Twitch:
         if self.sts_code == 200:
             self.errorBool = False
             retry_timer = response["data"][0]["retry_after"]
-            self.msg = f"Iniciando o comercial. Você pode executar outro anúncio em {retry_timer} segundos"
+            self.msg = f"{md.Msgs_S_startCommercial}".format(retry_timer)
             
         elif self.sts_code == 400:
             self.errorBool = True
-            self.msg = f"Bad Request."
+            self.msg = f"{md.Msgs_E_startCommercial_c400}"
         elif self.sts_code == 401:
             self.errorBool = True
-            self.msg = f"Unauthorized."
+            self.msg = f"{md.Msgs_E_startCommercial_c401}"
         elif self.sts_code == 404:
             self.errorBool = True
-            self.msg = f"Not Found."
+            self.msg = f"{md.Msgs_E_startCommercial_c404}"
         elif self.sts_code == 429:
             self.errorBool = True
-            self.msg = f"Muitas tentativas. Tente novamente em {RETRY_AFTER} Segundos"
+            self.msg = f"{md.Msgs_E_startCommercial_c429}"
         else: 
             self.msg = f"Response Code: {self.sts_code}"
         return self.msg
@@ -303,15 +302,15 @@ class Twitch:
 
             print("Código de resposta:", self.sts_code)
             if self.sts_code == 204:
-                self.msg = f"""Mensagem foi enviada com sucesso! Usuário: {para} | ID: {paraID}"""
+                self.msg = f"{md.Msgs_S_sendWhispers}".format(para, paraID)
             else:
-                self.msg = f"""Ocorreu um erro ao enviar a mensagem\n"""
+                self.msg = f"{md.Msgs_E_sendWhispers_ec}"
             return self.msg
 
         except KeyError as e:
-            print(f"Ocorreu um Erro. {e}")
+            # print(f"{md.Msgs_E_sendWhispers_KeyError}")
             self.errorBool = True
-            self.msg = f"{e}"
+            self.msg = f"{md.Msgs_E_sendWhispers_KeyError}"
 
     def ClearChat(self):
         broadcaster_id = self.getUserID(md.TwitchUsername)
@@ -326,11 +325,11 @@ class Twitch:
 
         if self.sts_code == 204:
             self.errorBool = False
-            self.msg = """Todas as mensagens do chat foram deletadas com sucesso!"""
+            self.msg = f"{md.Msgs_S_ClearChat}"
             return self.msg
         else:
             self.errorBool = True
-            self.msg = """Ocorreu algum erro ao tentar limpar o chat"""
+            self.msg = f"{md.Msgs_E_ClearChat_ec}"
             return self.msg
         
     def StartRaid(self, to_broadcaster: str):
@@ -349,12 +348,12 @@ class Twitch:
             self.sts_code = r.status_code
 
             if self.sts_code == 200:
-                self.msg = f"""A raid foi iniciada com sucesso! Streamer: {to_broadcaster}"""
+                self.msg = f"{md.Msgs_S_StartRaid}"
             return self.msg
         except KeyError as e:
-            print(f"Ocorreu um Erro. {e}")
+            # print(f"{md.Msgs_E_StartRaid_KeyError}")
             self.errorBool = True
-            self.msg = f"{e}"
+            self.msg = f"{md.Msgs_E_StartRaid_KeyError}"
 
     def CancelRaid(self):
         broadcaster_id = self.getUserID(md.TwitchUsername)
@@ -369,9 +368,9 @@ class Twitch:
 
         if self.sts_code == 204:
             self.errorBool = False
-            self.msg = """Raid cancelada com sucesso!"""
+            self.msg = f"{md.Msgs_S_CancelRaid}"
             return self.msg
         elif self.sts_code == 404:
             self.errorBool = False
-            self.msg = """"Ocorreu um erro ao tentar cancelar a Raid!\n\n Motivo: A invasão já foi enviada ou não existe."""
+            self.msg = f"{md.Msgs_E_CancelRaid_c404}"
             return self.msg
