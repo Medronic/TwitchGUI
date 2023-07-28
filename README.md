@@ -1,17 +1,20 @@
 # Twitch GUI
 Manage your live streams with Twitch GUI!
 
-![python_eVodfv5kU8](https://i.imgur.com/7p2SXrT.png))
-
+![7p2SXrT](https://github.com/Medronic/TwitchGUI/assets/38893379/19e3a9ea-f3c0-4850-b42a-e94e76030ce7)
 
 ## Features
 Twitch 
 - Edit Stream Info
+- Clear Chat
 - Run AD
 - Number of Viewers (In Live)
-- Create Clips [Soon implement with Async]
+- Create Clips
 - Create Rewards
 - Get total of Followers
+- Send msgs
+
+- There are more features. Try it :)
 
 Application
 - Multi Language
@@ -20,8 +23,6 @@ Application
 ## To do
 Features
 - List Rewards and Delete them
-- Send msgs
-
 - Translate the new features
 
 Prevent Errors
